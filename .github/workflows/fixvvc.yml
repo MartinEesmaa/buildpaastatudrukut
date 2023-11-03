@@ -14,7 +14,7 @@ jobs:
     - name: Build vvenc
       run: cd raylib && mkdir build && cd build && cmake -DCMAKE_OSX_ARCHITECTURES=arm64 .. -G "Xcode" && cmake --build . --config Release && cd ../../
     - name: Build vvdec
-      run: cd paastatudrukut && make RAYLIB_PATH=..\raylib && cd ../../
+      run: cd paastatudrukut && make RAYLIB_PATH=../raylib && cd ../../
     - name: Zip Release of vvenc
       uses: TheDoctor0/zip-release@0.7.1
       with:
