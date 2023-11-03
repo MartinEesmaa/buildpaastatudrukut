@@ -1,0 +1,27 @@
+name: Build VVC arm64 (aarch64 / armv8) Mac M1+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Git clone vvdec
+      run: git clone --depth=1 https://github.com/raysan5/raylib && git clone --depth=1 https://github.com/MartinEesmaa/PaastaTudrukut
+    - name: Build vvenc
+      run: cd raylib && mkdir build && cd build && cmake -DCMAKE_OSX_ARCHITECTURES=arm64 .. -G "Xcode" && cmake --build . --config Release && cd ../../
+    - name: Build vvdec
+      run: cd paastatudrukut && make RAYLIB_PATH=..\raylib && cd ../../
+    - name: Zip Release of vvenc
+      uses: TheDoctor0/zip-release@0.7.1
+      with:
+        filename: paasta.zip
+        path: ./PaastaTudrukut/paastatudrukut
+    - name: Upload a Build Artifact of vvdec
+      uses: actions/upload-artifact@v3.0.0
+      with:
+        name: paasta
+        path: ./paasta.zip
