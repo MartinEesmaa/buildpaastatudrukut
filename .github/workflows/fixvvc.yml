@@ -12,7 +12,9 @@ jobs:
     - name: Git clone vvdec
       run: git clone --depth=1 https://github.com/raysan5/raylib && git clone --depth=1 https://github.com/MartinEesmaa/PaastaTudrukut
     - name: Build vvenc
-      run: cd raylib && mkdir build && cd build && cmake -DCMAKE_OSX_ARCHITECTURES=arm64 .. -G "Xcode" && cmake --build . --config Release && cd ../../
+      run: cd raylib && mkdir build && cd build && cmake -DCMAKE_OSX_ARCHITECTURES=arm64 -DBUILD_EXAMPLES=OFF .. -G "Xcode" && cmake --build . --config Release && cd ../../
+    - name: Copy library to game
+      run: cp raylib/src/libraylib.a PaastaTudrukut/libraylib.a
     - name: Build vvdec
       run: cd paastatudrukut && make RAYLIB_PATH=../raylib && cd ../../
     - name: Zip Release of vvenc
