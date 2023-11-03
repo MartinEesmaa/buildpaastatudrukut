@@ -12,7 +12,7 @@ jobs:
     - name: Git clone vvdec
       run: git clone --depth=1 https://github.com/raysan5/raylib && git clone --depth=1 https://github.com/MartinEesmaa/PaastaTudrukut
     - name: Build vvenc
-      run: cd raylib/src && CFLAGS +="-arch arm64" make && cd ../../
+      run: cd raylib/src && export CFLAGS="-arch arm64" && make && cd ../../
     - name: Build vvdec
       run: cd paastatudrukut && make RAYLIB_PATH=../raylib && cd ../../
     - name: Zip Release of vvenc
